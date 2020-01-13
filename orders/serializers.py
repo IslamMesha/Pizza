@@ -24,15 +24,12 @@ class OrderListSerializer(ModelSerializer):
 
 class OrderCreateSerializer(ModelSerializer):
 
-    # def create(self, validated_data):
-    #     order = Order.objects.create(**validated_data)
-    #     return order
-
     def update(self, instance, validated_data):
         pizzas = validated_data.pop('pizzas', [])
         instance.status = validated_data.get('status', instance.status)
         instance.details = validated_data.get('details', instance.details)
         instance.customer = validated_data.get('customer', instance.customer)
+        instance.save()
         instance.pizzas.set(pizzas)
         return instance
 
