@@ -6,17 +6,20 @@ from rest_framework.status import HTTP_201_CREATED
 from rest_framework.viewsets import ModelViewSet
 
 from orders.models import Order
-from orders.permissions import IsDeliveredOrReadOnly
+from orders.permissions import IsDeliveredOrReadOnly, IsOwnerOrReadOnly
 from orders.serializers import OrderListSerializer, OrderCreateSerializer
 
 
 class OrderViewSet(ModelViewSet):
+    """
+    OrderViewSet for reading, writing, updating, delete orders.
+    """
     queryset = Order.objects.all()
     serializer_class = OrderListSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ('status', 'customer',)
     authentication_classes = (TokenAuthentication, SessionAuthentication)
-    permission_classes = (IsAuthenticatedOrReadOnly, IsDeliveredOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, IsDeliveredOrReadOnly, IsOwnerOrReadOnly)
 
     def create(self, request, *args, **kwargs):
         self.serializer_class = OrderCreateSerializer
