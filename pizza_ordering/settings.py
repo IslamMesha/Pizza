@@ -82,10 +82,16 @@ WSGI_APPLICATION = 'pizza_ordering.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# Note: this data is sensitive so it must be as a env variables on the server
+# or we can read it from another file.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'database',
+        'USER': 'islam_mesha',
+        'PASSWORD': 'abc@123',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
